@@ -2,6 +2,9 @@
   <library name="x64">
     <CLASSES />
     <JAVADOC />
+    <NATIVE>
+      <root url="file://$PROJECT_DIR$/opencv" />
+    </NATIVE>
     <SOURCES />
   </library>
 </component>
