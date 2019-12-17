@@ -47,7 +47,15 @@ public class Bot extends TelegramLongPollingBot {
 
     public static void main(String[] args) {
 
-        System.out.println("START123567");
+        System.out.println("START");
+        for (int j = 0; j <50 ; j++) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println("j="+j);
+        }
 //        DaoImpl<Agent> agentDao = new DaoImpl<>(Agent.class);
 //        Agent agent = new Agent();
 //        agent.setTelegram("@aaa");
@@ -71,16 +79,16 @@ public class Bot extends TelegramLongPollingBot {
         //}
 
 
-        ApiContextInitializer.init();
-        TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
-
-
-        Bot bot = new Bot();
-        try {
-            telegramBotsApi.registerBot(bot);
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
-        }
+//        ApiContextInitializer.init();
+//        TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
+//
+//
+//        Bot bot = new Bot();
+//        try {
+//            telegramBotsApi.registerBot(bot);
+//        } catch (TelegramApiException e) {
+//            e.printStackTrace();
+//        }
     }
 
     private void sendMsg(Message message, String text) {
