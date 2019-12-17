@@ -118,18 +118,6 @@ public class Agent {
         this.fraction = fraction;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Agent agent = (Agent) o;
-        return Objects.equals(nick, agent.nick);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(nick);
-    }
 
     @Override
     public String toString() {
