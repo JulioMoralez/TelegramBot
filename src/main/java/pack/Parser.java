@@ -59,7 +59,7 @@ class Parser implements Runnable{
     }
 
 
-
+    //меняем контраст у картинки
     private void changeContrast(Mat image, double contrast){
         Scalar meanBGR = Core.mean(image);
         double mean = meanBGR.val[0] * 0.114 + meanBGR.val[1]*0.587 + meanBGR.val[2]*0.29;
@@ -76,6 +76,7 @@ class Parser implements Runnable{
         lut.release();
     }
 
+    //определяем фракцию по цвету лого
     private int getColorForFraction(double[] pixel){
         if (((pixel[0]>=150) && (pixel[0]<=255)) &&
             ((pixel[1]>=105) && (pixel[1]<=200)) &&
@@ -90,6 +91,7 @@ class Parser implements Runnable{
         return 0;
     }
 
+    //ищем лого фракции
     private int findPosFractionLogo(Mat image, int cols, int rows){
         int fractionSearchEnd = 0;
         int pixelColor=0;
@@ -131,6 +133,7 @@ class Parser implements Runnable{
         return fractionSearchEnd;
     }
 
+    //основная функция получения текста из картинки
     private void goTesseract(){
         ITesseract tes = new Tesseract();
         tes.setDatapath("tessdata");
@@ -250,6 +253,7 @@ class Parser implements Runnable{
         }
     }
 
+    //запоняем нужные поля у игрока
     private void setAgent(Agent agent) {
         try{
             agent.setNick(nick);
@@ -274,6 +278,7 @@ class Parser implements Runnable{
         }
     }
 
+    //в случае неудачи распознавания, повторно работаем с фото с повышением контраста
     private void parsItWithContrast(){
         Mat source = Imgcodecs.imread(imageIn,Imgcodecs.IMREAD_COLOR);
         changeContrast(source, contrast);
@@ -282,6 +287,7 @@ class Parser implements Runnable{
         goTesseract();
     }
 
+    //делаем предварительные преобразования над фото - делаем чб, инверсию
     void parsIt(){
         Mat source = Imgcodecs.imread(imageIn,Imgcodecs.IMREAD_COLOR);
         final int cols=source.cols();

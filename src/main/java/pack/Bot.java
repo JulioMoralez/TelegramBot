@@ -15,7 +15,6 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 import pack.dao.AgentDao;
 import pack.dao.AgentDaoMemory;
-import pack.dao.AgentDaoSQL;
 import pack.model.Agent;
 
 import java.util.ArrayList;
@@ -23,63 +22,28 @@ import java.util.List;
 
 public class Bot extends TelegramLongPollingBot {
 
-    static {
-        System.setProperty("org.apache.commons.logging.Log",
-                "org.apache.commons.logging.impl.NoOpLog");
-    }
-
     private static AgentDao agentDao;
 
-    Bot(){
-//        System.getProperties().put( "proxySet", "true" );
-//        System.getProperties().put( "socksProxyHost", "127.0.0.1" );
-//        System.getProperties().put( "socksProxyPort", "9150" );
-
-        agentDao = new AgentDaoMemory();
-      //  System.loadLibrary("opencv_java411");
-     //   System.load("/app/opencv_java411.dll");
-     //   System.load("C:/Users/40620/IdeaProjects/TelegramBot/opencv_java411.dll");
-        System.out.println("dll OK");
-    }
-
-    public static AgentDao getAgentDao() {
+    static AgentDao getAgentDao() {
         return agentDao;
     }
 
-    public static void setAgentDao(AgentDao agentDao) {
-        Bot.agentDao = agentDao;
+    Bot(){
+        System.getProperties().put( "proxySet", "true" );
+        System.getProperties().put( "socksProxyHost", "127.0.0.1" );
+        System.getProperties().put( "socksProxyPort", "9150" );
+
+        agentDao = new AgentDaoMemory();
+        System.loadLibrary("opencv_java411");
+        System.out.println("dll OK");
     }
 
     public static void main(String[] args) {
 
         System.out.println("START");
 
-//        DaoImpl<Agent> agentDao = new DaoImpl<>(Agent.class);
-//        Agent agent = new Agent();
-//        agent.setTelegram("@aaa");
-//        agent.setActive(1);
-//        agent.setNick("ololo3");
-//        agent.setLevel(12);
-//        agent.setAp(12345);
-//        agent.setTrekker(10000);
-//        agent.setBuilder(20000);
-//        agent.setPurifier(30000);
-//        agent.setRecharger(40000);
-//     //   agentDao.add(agent);
-//        Agent a2 = new Agent();
-//        a2=agentDao.findByNick("ololo2");
-//        System.out.println(a2);
-
-      //  new Thread(new Parser("screen\\1565080459212680660585271040662.tmp.jpg")).start();
-      //  new Thread(new Parser("screen\\1565082325780652666827845556677.tmp.jpg")).start();
-      //  for (double i = 1.0; i < 3.0; i+=0.1) {
-       //    new Thread(new Parser("1565082325780652666827845556677.tmp.jpg")).start();
-        //}
-
-
         ApiContextInitializer.init();
         TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
-
 
         Bot bot = new Bot();
         try {
@@ -89,13 +53,9 @@ public class Bot extends TelegramLongPollingBot {
         }
     }
 
+    //отправка простого сообщения
     private void sendMsg(Message message, String text) {
         SendMessage sendMessage = new SendMessage();
- //       sendMessage.enableMarkdown(true);
-//        if (fraction.equals("") || message.getText().equals("/start")){
-//            setButtons(sendMessage);
-//        }
-       // text="@"+message.getChat().getUserName();
         sendMessage.setChatId(message.getChatId().toString());
         sendMessage.setReplyToMessageId(message.getMessageId());
         sendMessage.setText(text);
@@ -106,6 +66,7 @@ public class Bot extends TelegramLongPollingBot {
         }
     }
 
+    //отправка статистики игрока
     private void sendStat(Message message, String nick) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.enableMarkdown(true);
@@ -150,22 +111,8 @@ public class Bot extends TelegramLongPollingBot {
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
-        //sendTestTest();
     }
 
-    private void sendTestTest(){
-        SendMessage sendMessage = new SendMessage();
-
-    //    sendMessage.setChatId("245936962");
-    //    sendMessage.setChatId("229076282");
-    //    sendMessage.setText("Мне пока не видно");
-        try {
-            sendMessage(sendMessage);
-            System.out.println("111");
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
-        }
-    }
 
     public synchronized void setButtons(SendMessage sendMessage) {
         // Создаем клавиуатуру
@@ -196,6 +143,7 @@ public class Bot extends TelegramLongPollingBot {
         replyKeyboardMarkup.setKeyboard(keyboard);
     }
 
+    //слушаем запросы
     public void onUpdateReceived(Update update) {
         Message message = update.getMessage();
         if (message != null && message.hasText()) {
@@ -221,6 +169,7 @@ public class Bot extends TelegramLongPollingBot {
         }
     }
 
+    //получаем фото и отправляем на обработку
     class PhotoThread implements Runnable {
 
         private PhotoSize photo;
