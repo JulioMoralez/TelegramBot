@@ -36,6 +36,7 @@ public class Bot extends TelegramLongPollingBot {
         System.getProperties().put( "socksProxyPort", "9150" );
 
         agentDao = new AgentDaoMemory();
+        System.out.println(System.getProperty("java.class.path"));
         System.loadLibrary("opencv_java411");
     }
 
