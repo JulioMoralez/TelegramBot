@@ -37,7 +37,8 @@ public class Bot extends TelegramLongPollingBot {
 
         agentDao = new AgentDaoMemory();
       //  System.loadLibrary("opencv_java411");
-        System.load("\\app\\opencv_java411.dll");
+        System.load("/app/opencv_java411.dll");
+     //   System.load("C:/Users/40620/IdeaProjects/TelegramBot/opencv_java411.dll");
         System.out.println("dll OK");
     }
 
