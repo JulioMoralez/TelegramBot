@@ -13,7 +13,9 @@ import org.telegram.telegrambots.api.objects.replykeyboard.buttons.KeyboardButto
 import org.telegram.telegrambots.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
-import pack.dao.DaoImpl;
+import pack.dao.AgentDao;
+import pack.dao.AgentDaoMemory;
+import pack.dao.AgentDaoSQL;
 import pack.model.Agent;
 
 import java.util.ArrayList;
@@ -26,22 +28,22 @@ public class Bot extends TelegramLongPollingBot {
                 "org.apache.commons.logging.impl.NoOpLog");
     }
 
-    private static DaoImpl agentDao;
+    private static AgentDao agentDao;
 
     Bot(){
         System.getProperties().put( "proxySet", "true" );
         System.getProperties().put( "socksProxyHost", "127.0.0.1" );
         System.getProperties().put( "socksProxyPort", "9150" );
 
-        agentDao = new DaoImpl();
+        agentDao = new AgentDaoMemory();
         System.loadLibrary("opencv_java411");
     }
 
-    public static DaoImpl getAgentDao() {
+    public static AgentDao getAgentDao() {
         return agentDao;
     }
 
-    public static void setAgentDao(DaoImpl agentDao) {
+    public static void setAgentDao(AgentDao agentDao) {
         Bot.agentDao = agentDao;
     }
 
@@ -195,7 +197,8 @@ public class Bot extends TelegramLongPollingBot {
         Message message = update.getMessage();
         if (message != null && message.hasText()) {
             System.out.println(message.getText());
-            sendMsg(message, "Привет");
+            //sendMsg(message, "Привет");
+            sendStat(message,message.getText());
         }
         if ((message!=null) && (message.hasPhoto())){
             List<PhotoSize> photos = message.getPhoto();

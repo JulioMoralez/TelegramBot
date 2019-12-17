@@ -6,7 +6,7 @@ import net.sourceforge.tess4j.TesseractException;
 import org.opencv.core.*;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
-import pack.dao.DaoImpl;
+import pack.dao.AgentDao;
 import pack.model.Agent;
 
 import java.io.File;
@@ -35,7 +35,7 @@ class Parser implements Runnable{
 
 
 
-    private static DaoImpl agentDao=Bot.getAgentDao();
+    private static AgentDao agentDao =Bot.getAgentDao();
 
     Parser(){
     }

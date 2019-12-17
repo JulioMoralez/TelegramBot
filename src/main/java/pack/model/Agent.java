@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.util.Objects;
 
 @Entity
 public class Agent {
@@ -115,6 +116,19 @@ public class Agent {
 
     public void setFraction(Integer fraction) {
         this.fraction = fraction;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Agent agent = (Agent) o;
+        return Objects.equals(nick, agent.nick);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nick);
     }
 
     @Override
